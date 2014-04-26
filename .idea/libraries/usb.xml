@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="usb">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Arduino/libs/usb.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

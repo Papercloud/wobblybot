@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/forward_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="forward"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <Button
+                android:id="@+id/left_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="left"/>
+            <Button
+                android:id="@+id/stop_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="stop"/>
+            <Button
+                android:id="@+id/right_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="right"/>
+            </LinearLayout>
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="back"
+            android:layout_gravity="center"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:id="@+id/connectionStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Connection Status"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:text="Timer"/>
+    </LinearLayout>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="au.com.papercloud.arduino.ContinuousDictationFragment"
+        android:id="@+id/dictation_fragment"
+        android:layout_gravity="center_horizontal"
+        tools:layout="@layout/dictation_fragment"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/speechResults" />
+
+
+</LinearLayout>
