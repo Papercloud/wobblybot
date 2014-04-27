@@ -1,6 +1,5 @@
 package au.com.papercloud.arduino;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -9,18 +8,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import java.util.Timer;
+import java.util.TimerTask;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 
 import com.android.future.usb.UsbAccessory;
 import com.android.future.usb.UsbManager;
@@ -34,7 +38,9 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends FragmentActivity implements ContinuousDictationFragment.ContinuousDictationFragmentResultsCallback, TextToSpeech.OnInitListener
+import android.widget.SeekBar;
+
+public class MainActivity extends FragmentActivity implements ContinuousDictationFragment.ContinuousDictationFragmentResultsCallback, TextToSpeech.OnInitListener, SensorEventListener
 {
     private TextToSpeech tts;
 
@@ -50,6 +56,23 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
     private boolean mPermissionRequestPending;
     TextView connectionStatus;
     ConnectedThread mConnectedThread;
+
+    private SensorManager mSensorManager;
+    private Sensor mRotVectSensor;
+    private float[] orientationVals=new float[3];
+    private float[] mRotationMatrix=new float[16];
+    private TextView textView_Current_Angle;
+    private TextView textView_Tilt_adjuster;
+    private TextView textView_kP_adjuster;
+    private TextView textView_kI_adjuster;
+    private TextView textView_kD_adjuster;
+    private SeekBar seekBar_Tilt_adjuster;
+    private SeekBar seekBar_kP_adjuster;
+    private SeekBar seekBar_kI_adjuster;
+    private SeekBar seekBar_kD_adjuster;
+
+    private Timer mCallBalancerTimer;
+    private Balancer mBalancer;
 
     ContinuousDictationFragment dictationFragment;
 
@@ -203,6 +226,35 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Balancing tweak controls and debug
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mRotVectSensor=mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+
+        textView_Current_Angle = (TextView) findViewById(R.id.TextView_CurrentAngle_Value);
+
+        textView_Tilt_adjuster = (TextView) findViewById(R.id.TextView_Tilt_adjusterValue);
+        seekBar_Tilt_adjuster = (SeekBar) findViewById(R.id.SeekBar_Tilt_adjuster);
+
+        textView_kP_adjuster = (TextView) findViewById(R.id.TextView_kP_adjusterValue);
+        seekBar_kP_adjuster = (SeekBar) findViewById(R.id.SeekBar_kP_adjuster);
+
+        textView_kI_adjuster = (TextView) findViewById(R.id.TextView_kI_adjusterValue);
+        seekBar_kI_adjuster = (SeekBar) findViewById(R.id.SeekBar_kI_adjuster);
+
+        textView_kD_adjuster = (TextView) findViewById(R.id.TextView_kD_adjusterValue);
+        seekBar_kD_adjuster = (SeekBar) findViewById(R.id.SeekBar_kD_adjuster);
+
+        // This does the actual balancing.
+        mBalancer = new Balancer();
+
+        mCallBalancerTimer = new Timer();
+        mCallBalancerTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mBalancer.balance();
+            }
+        }, 0, 100); // TODO: Make it more frequent than every second.
+
         connectionStatus = (TextView) findViewById(R.id.connectionStatus);
 
         forwardButton = (Button) findViewById(R.id.forward_button);
@@ -228,10 +280,76 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         dictationFragment = (ContinuousDictationFragment) getSupportFragmentManager().findFragmentById(R.id.dictation_fragment);
     }
 
+    private void setText_current_angle(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_Current_Angle.setText(str);
+            }
+        });
+    }
+
+    private void setText_tilt_adjuster(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_Tilt_adjuster.setText(str);
+            }
+        });
+    }
+
+    private void setText_kP_adjuster(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_kP_adjuster.setText(str);
+            }
+        });
+    }
+
+    private void setText_kI_adjuster(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_kI_adjuster.setText(str);
+            }
+        });
+    }
+
+    private void setText_kD_adjuster(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_kD_adjuster.setText(str);
+            }
+        });
+    }
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event)
+    {
+        if(event.sensor.getType()==Sensor.TYPE_ROTATION_VECTOR)
+        {
+            SensorManager.getRotationMatrixFromVector(mRotationMatrix,event.values);
+            SensorManager.remapCoordinateSystem(mRotationMatrix,SensorManager.AXIS_X, SensorManager.AXIS_Z, mRotationMatrix);
+            SensorManager.getOrientation(mRotationMatrix, orientationVals);
+            orientationVals[1]=(float)Math.toDegrees(orientationVals[1]);
+        }
+    }
+
     @Override
     public void onResume()
     {
         super.onResume();
+
+        // register this class as a listener for the orientation and
+        // accelerometer sensors
+        mSensorManager.registerListener(this, mRotVectSensor, 10000);
 
         if (mAccessory != null)
         {
@@ -265,6 +383,13 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             setConnectionStatus(false);
             Log.d(TAG, "mAccessory is null");
         }
+    }
+
+    @Override
+    protected void onPause() {
+        // unregister listener
+        super.onPause();
+        mSensorManager.unregisterListener(this);
     }
 
     @Override
@@ -403,6 +528,24 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         }
     }
 
+    public void sendSpeed(float value)
+    {
+        int roundedValue = Math.round(value);
+
+//        Log.e(TAG, "sending " + roundedValue);
+        if (mOutputStream != null)
+        {
+            try
+            {
+                mOutputStream.write(new Byte(Integer.toString(roundedValue)));
+            }
+            catch (IOException e)
+            {
+                Log.e(TAG, "write failed", e);
+            }
+        }
+    }
+
     public void sendCharacter(char character)
     {
         byte buffer = (byte)character;
@@ -497,5 +640,76 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             }
         }
     };
+
+    class Balancer
+    {
+        private int targetAngle;
+        private int currentAngle;
+        private float previousErrorAngle;
+
+        private float P = 0;
+        private float I = 0;
+        private float D = 0;
+        private float PID = 0;
+
+        private long lastTime = 0;
+
+        private float integratedError = 0;
+
+        private int seekbar_tilt_adjuster_value;
+        private float seekbar_kP_adjuster_value;
+        private float seekbar_kI_adjuster_value;
+        private float seekbar_kD_adjuster_value;
+
+        public void balance()
+        {
+            seekbar_tilt_adjuster_value = seekBar_Tilt_adjuster.getProgress() - 500;
+
+            // Divide by 100 to get floats from int-only SeekBars.
+            seekbar_kP_adjuster_value   = (float)seekBar_kP_adjuster.getProgress() / (float)100;
+            seekbar_kI_adjuster_value   = (float)seekBar_kI_adjuster.getProgress() / (float)100;
+            seekbar_kD_adjuster_value   = (float)seekBar_kD_adjuster.getProgress() / (float)100;
+
+            setText_tilt_adjuster(Integer.toString(seekbar_tilt_adjuster_value));
+            setText_kP_adjuster(Float.toString(seekbar_kP_adjuster_value));
+            setText_kI_adjuster(Float.toString(seekbar_kI_adjuster_value));
+            setText_kD_adjuster(Float.toString(seekbar_kD_adjuster_value));
+
+            // Defaults to 0. Can be tuned to stand up completely straight.
+            targetAngle = seekbar_tilt_adjuster_value;
+            currentAngle = (Math.round(orientationVals[1]  * 100));
+
+            float errorAngle = ((float)targetAngle - (float)currentAngle) / (float)100;
+            setText_current_angle(Float.toString(errorAngle));
+
+            long time = System.currentTimeMillis();
+            long dt = time - lastTime;
+            P = seekbar_kP_adjuster_value * errorAngle;
+            integratedError += errorAngle * dt;
+            I = seekbar_kI_adjuster_value * constrain(integratedError, -1, 1);
+            D = seekbar_kD_adjuster_value * (errorAngle - previousErrorAngle) / dt;
+            previousErrorAngle = errorAngle;
+            lastTime = time;
+
+            PID = P + I + D;
+
+            Log.i("PID", "PID " + ((float)Math.round(PID * 1000) / (float)1000));
+            sendSpeed(PID);
+        }
+
+        // I can't figure out how to use android.util.MathUtil's constrain, which apparently exists. So making my own.
+        public float constrain(float value, float lower, float upper)
+        {
+            if (value > upper) {
+                return upper;
+            } else if (value < lower) {
+                return lower;
+            } else {
+                return value;
+            }
+        }
+    }
+
+
 
 }

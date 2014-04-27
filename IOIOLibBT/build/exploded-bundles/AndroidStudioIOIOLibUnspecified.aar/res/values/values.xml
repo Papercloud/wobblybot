@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/Users/jeddawson/Documents/code/ioio/android%20studio/IOIOLib/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="app_name">My Module</string>
+
+</resources>

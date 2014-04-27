@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
@@ -12,8 +15,8 @@
         android:orientation="vertical">
         <Button
             android:id="@+id/forward_button"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:text="forward"
             android:layout_gravity="center"/>
 
@@ -24,25 +27,25 @@
             android:layout_gravity="center">
             <Button
                 android:id="@+id/left_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:text="left"/>
             <Button
                 android:id="@+id/stop_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:text="stop"/>
             <Button
                 android:id="@+id/right_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:text="right"/>
             </LinearLayout>
 
         <Button
             android:id="@+id/back_button"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:text="back"
             android:layout_gravity="center"/>
         </LinearLayout>
@@ -74,7 +77,6 @@
         android:layout_height="wrap_content"
         android:name="au.com.papercloud.arduino.ContinuousDictationFragment"
         android:id="@+id/dictation_fragment"
-        android:layout_gravity="center_horizontal"
         tools:layout="@layout/dictation_fragment"/>
 
     <TextView
@@ -83,4 +85,153 @@
         android:id="@+id/speechResults" />
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20px" >
+
+        <EditText
+            android:id="@+id/currentangleLabel"
+            android:layout_width="193dp"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:ems="10"
+            android:inputType="none"
+            android:singleLine="false"
+            android:text="@string/currentAngleLabel" />
+
+        <TextView
+            android:id="@+id/TextView_CurrentAngle_Value"
+            android:layout_width="109dp"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20px" >
+
+        <EditText
+            android:id="@+id/tiltadjusterLabel"
+            android:layout_width="193dp"
+            android:editable="false"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="none"
+            android:singleLine="false"
+            android:text="@string/tiltadjusterLabel" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/TextView_Tilt_adjusterValue"
+            android:layout_width="109dp"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/SeekBar_Tilt_adjuster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="1000"
+        android:progress="500" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20px" >
+
+        <EditText
+            android:id="@+id/kPadjusterLabel"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:editable="false"
+            android:inputType="none"
+            android:text="@string/kPadjusterLabel" />
+
+        <TextView
+            android:id="@+id/TextView_kP_adjusterValue"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/SeekBar_kP_adjuster"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="500"
+        android:progress="100" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20px" >
+
+        <EditText
+            android:id="@+id/kIadjusterLabel"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:editable="false"
+            android:inputType="none"
+            android:text="@string/kIadjusterLabel" />
+
+        <TextView
+            android:id="@+id/TextView_kI_adjusterValue"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/SeekBar_kI_adjuster"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="500"
+        android:progress="100" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20px" >
+
+        <EditText
+            android:id="@+id/kDadjusterLabel"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:editable="false"
+            android:inputType="none"
+            android:text="@string/kDadjusterLabel" />
+
+        <TextView
+            android:id="@+id/TextView_kD_adjusterValue"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/SeekBar_kD_adjuster"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="500"
+        android:progress="100" />
+
 </LinearLayout>
+    </ScrollView>
