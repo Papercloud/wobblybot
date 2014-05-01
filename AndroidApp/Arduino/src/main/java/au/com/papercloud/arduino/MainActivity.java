@@ -570,16 +570,20 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
 
 //        Log.e(TAG, "sending " + roundedValue);
         if (mOutputStream != null)
-        {
-            try
-            {
-                mOutputStream.write(new Byte(Integer.toString(roundedValue)));
-            }
-            catch (IOException e)
-            {
+            try {
+                /**
+                 * We'll make a byte array where the first 2 bytes hold the value for
+                 * the left motor speed and the last 2 for the right
+                 */
+                byte[] leftArray = ByteBuffer.allocate(2).putInt(roundedValue).array();
+                byte[] rightArray = ByteBuffer.allocate(2).putInt(roundedValue).array();
+                byte[] combinedArray = new byte[4];
+                System.arraycopy(leftArray, 0, combinedArray, 0, 2);
+                System.arraycopy(rightArray, 0, combinedArray, 2, 2);
+                mOutputStream.write(combinedArray);
+            } catch (IOException e) {
                 Log.e(TAG, "write failed", e);
             }
-        }
     }
 
     public void sendCharacter(char character)
