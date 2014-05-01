@@ -129,18 +129,19 @@ void loop() {
       Serial.print(F("\r\nConnected to accessory"));
     }
 
-    uint8_t msg[1];
+    uint8_t msg[2];
     uint16_t len = sizeof(msg);
     uint8_t rcode = adk.RcvData(&len, msg);
     if (rcode && rcode != hrNAK) {
       Serial.print(F("\r\nData rcv: "));
       Serial.print(rcode, HEX);
     } else if (len > 0) {
+      int leftSpeed = BitShiftCombine(msg[0], msg[1]);
       Serial.print(F("\r\nData Packet: "));
-      Serial.print((int8_t)msg[0]);
+      Serial.print(leftSpeed);
 //      moveDirection(msg[0]);
 
-      moveSpeed((int8_t)msg[0]);
+      moveSpeed(leftSpeed);
     }
 
 //    if (millis() - timer >= 1000) { // Send data every 1s
@@ -160,5 +161,14 @@ void loop() {
       Serial.print(F("\r\nDisconnected from accessory"));
     }
   }
+}
+
+int BitShiftCombine( unsigned char x_high, unsigned char x_low)
+{
+  int combined; 
+  combined = x_high;              //send x_high to rightmost 8 bits
+  combined = combined<<8;         //shift x_high over to leftmost 8 bits
+  combined |= x_low;                 //logical OR keeps x_high intact in combined and fills in                                                             //rightmost 8 bits
+  return combined;
 }
 

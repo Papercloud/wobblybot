@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidConfiguredLogFilters">
+    <filters>
+      <filter>
+        <option name="name" value="app: au.com.papercloud.arduino" />
+        <option name="packageNamePattern" value="au.com.papercloud.arduino" />
+      </filter>
+    </filters>
+  </component>
   <component name="AndroidLayoutPreviewToolWindow">
     <option name="state">
       <GlobalState />
@@ -9,6 +17,9 @@
     <shared>
       <config />
     </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: au.com.papercloud.arduino" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a631457c-d80c-4a2f-93e2-b5d3864e028b" name="Default" comment="" />
@@ -36,15 +47,15 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Arduino/src/main/java/au/com/papercloud/arduino/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51626015" vertical-offset="2949" max-vertical-offset="6030">
-              <caret line="545" column="69" selection-start-line="545" selection-start-column="69" selection-end-line="545" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.7193347" vertical-offset="3074" max-vertical-offset="6105">
+              <caret line="551" column="46" selection-start-line="551" selection-start-column="46" selection-end-line="551" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#onDictationStart#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onResults#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onDictationFinish#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onInit#0;class#MainActivity#0" expanded="false" />
-                <element signature="class#4988:5511" expanded="false" />
+                <element signature="class#5030:5553" expanded="false" />
                 <element signature="class#Direction#0;class#MainActivity#0" expanded="false" />
                 <element signature="class#DirectionButtonTouchListener#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#DirectionButtonTouchListener#0;class#DirectionButtonTouchListener#0;class#MainActivity#0" expanded="false" />
@@ -57,7 +68,7 @@
                 <element signature="method#onAccuracyChanged#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onSensorChanged#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onResume#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#11462#11522#0" expanded="false" />
+                <element signature="e#11504#11564#0" expanded="false" />
                 <element signature="method#onPause#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onBackPressed#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onDestroy#0;class#MainActivity#0" expanded="false" />
@@ -65,12 +76,12 @@
                 <element signature="method#setConnectionStatus#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#closeAccessory#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#sendDirection#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#18146#18540#0" expanded="true" />
-                <element signature="e#18513#18514#0" expanded="true" />
-                <element signature="e#18690#18691#0" expanded="true" />
-                <element signature="e#18729#18730#0" expanded="true" />
-                <element signature="e#18789#19890#0" expanded="true" />
-                <element signature="e#19883#19884#0" expanded="true" />
+                <element signature="e#18337#18731#0" expanded="true" />
+                <element signature="e#18704#18705#0" expanded="true" />
+                <element signature="e#18881#18882#0" expanded="true" />
+                <element signature="e#18920#18921#0" expanded="true" />
+                <element signature="e#18980#20081#0" expanded="true" />
+                <element signature="e#20074#20075#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1916,7 +1927,7 @@
     <property name="recentsLimit" value="5" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="07231e43439ca3b6" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Test" />
   </component>
   <component name="RecentsManager">
@@ -2096,7 +2107,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="874" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2110,7 +2121,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32991013" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32991013" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2157,7 +2168,7 @@
             <element signature="method#onResults#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onDictationFinish#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onInit#0;class#MainActivity#0" expanded="false" />
-            <element signature="class#4988:5511" expanded="false" />
+            <element signature="class#5030:5553" expanded="false" />
             <element signature="class#Direction#0;class#MainActivity#0" expanded="false" />
             <element signature="class#DirectionButtonTouchListener#0;class#MainActivity#0" expanded="false" />
             <element signature="method#DirectionButtonTouchListener#0;class#DirectionButtonTouchListener#0;class#MainActivity#0" expanded="false" />
@@ -2170,7 +2181,7 @@
             <element signature="method#onAccuracyChanged#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onSensorChanged#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onResume#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#11462#11522#0" expanded="false" />
+            <element signature="e#11504#11564#0" expanded="false" />
             <element signature="method#onPause#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onBackPressed#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onDestroy#0;class#MainActivity#0" expanded="false" />
@@ -2178,12 +2189,12 @@
             <element signature="method#setConnectionStatus#0;class#MainActivity#0" expanded="false" />
             <element signature="method#closeAccessory#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sendDirection#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#18146#18540#0" expanded="true" />
-            <element signature="e#18513#18514#0" expanded="true" />
-            <element signature="e#18690#18691#0" expanded="true" />
-            <element signature="e#18729#18730#0" expanded="true" />
-            <element signature="e#18789#19890#0" expanded="true" />
-            <element signature="e#19883#19884#0" expanded="true" />
+            <element signature="e#18337#18731#0" expanded="true" />
+            <element signature="e#18704#18705#0" expanded="true" />
+            <element signature="e#18881#18882#0" expanded="true" />
+            <element signature="e#18920#18921#0" expanded="true" />
+            <element signature="e#18980#20081#0" expanded="true" />
+            <element signature="e#20074#20075#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2211,15 +2222,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Arduino/src/main/java/au/com/papercloud/arduino/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51626015" vertical-offset="2949" max-vertical-offset="6030">
-          <caret line="545" column="69" selection-start-line="545" selection-start-column="69" selection-end-line="545" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.7193347" vertical-offset="3074" max-vertical-offset="6105">
+          <caret line="551" column="46" selection-start-line="551" selection-start-column="46" selection-end-line="551" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#onDictationStart#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onResults#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onDictationFinish#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onInit#0;class#MainActivity#0" expanded="false" />
-            <element signature="class#4988:5511" expanded="false" />
+            <element signature="class#5030:5553" expanded="false" />
             <element signature="class#Direction#0;class#MainActivity#0" expanded="false" />
             <element signature="class#DirectionButtonTouchListener#0;class#MainActivity#0" expanded="false" />
             <element signature="method#DirectionButtonTouchListener#0;class#DirectionButtonTouchListener#0;class#MainActivity#0" expanded="false" />
@@ -2232,7 +2243,7 @@
             <element signature="method#onAccuracyChanged#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onSensorChanged#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onResume#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#11462#11522#0" expanded="false" />
+            <element signature="e#11504#11564#0" expanded="false" />
             <element signature="method#onPause#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onBackPressed#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onDestroy#0;class#MainActivity#0" expanded="false" />
@@ -2240,12 +2251,12 @@
             <element signature="method#setConnectionStatus#0;class#MainActivity#0" expanded="false" />
             <element signature="method#closeAccessory#0;class#MainActivity#0" expanded="false" />
             <element signature="method#sendDirection#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#18146#18540#0" expanded="true" />
-            <element signature="e#18513#18514#0" expanded="true" />
-            <element signature="e#18690#18691#0" expanded="true" />
-            <element signature="e#18729#18730#0" expanded="true" />
-            <element signature="e#18789#19890#0" expanded="true" />
-            <element signature="e#19883#19884#0" expanded="true" />
+            <element signature="e#18337#18731#0" expanded="true" />
+            <element signature="e#18704#18705#0" expanded="true" />
+            <element signature="e#18881#18882#0" expanded="true" />
+            <element signature="e#18920#18921#0" expanded="true" />
+            <element signature="e#18980#20081#0" expanded="true" />
+            <element signature="e#20074#20075#0" expanded="true" />
           </folding>
         </state>
       </provider>

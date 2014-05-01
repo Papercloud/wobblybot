@@ -14,6 +14,8 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+
+import java.nio.BufferOverflowException;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.view.MotionEvent;
@@ -530,7 +532,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
 
     public void sendSpeed(float value)
     {
-        int roundedValue = Math.round(value);
+        short roundedValue = (short)Math.round(value);
 
 //        Log.e(TAG, "sending " + roundedValue);
         if (mOutputStream != null)
@@ -539,14 +541,17 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
                  * We'll make a byte array where the first 2 bytes hold the value for
                  * the left motor speed and the last 2 for the right
                  */
-                byte[] leftArray = ByteBuffer.allocate(2).putInt(roundedValue).array();
-                byte[] rightArray = ByteBuffer.allocate(2).putInt(roundedValue).array();
-                byte[] combinedArray = new byte[4];
-                System.arraycopy(leftArray, 0, combinedArray, 0, 2);
-                System.arraycopy(rightArray, 0, combinedArray, 2, 2);
-                mOutputStream.write(combinedArray);
+
+                byte[] leftArray = ByteBuffer.allocate(2).putShort(roundedValue).array();
+//                byte[] rightArray = ByteBuffer.allocate(2).putShort(roundedValue).array();
+//                byte[] combinedArray = new byte[4];
+//                System.arraycopy(leftArray, 0, combinedArray, 0, 2);
+//                System.arraycopy(rightArray, 0, combinedArray, 2, 2);
+                mOutputStream.write(leftArray);
             } catch (IOException e) {
                 Log.e(TAG, "write failed", e);
+            } catch (BufferOverflowException e) {
+                Log.e(TAG, "Tried to convert " + roundedValue + " to int16", e);
             }
     }
 
