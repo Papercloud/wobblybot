@@ -2,12 +2,12 @@
 <merger>
 
     <dataSet config="main" >
-        <source path="/Users/tomas/Work/Toys/wobblybot/IOIOLibBT/src/main/res" />
-        <source path="/Users/tomas/Work/Toys/wobblybot/IOIOLibBT/build/res/rs/debug" />
-        <source path="/Users/tomas/Work/Toys/wobblybot/IOIOLibBT/build/res/generated/debug" />
+        <source path="/Users/tomas/Work/Toys/wobblybot/AndroidApp/IOIOLibBT/src/main/res" />
+        <source path="/Users/tomas/Work/Toys/wobblybot/AndroidApp/IOIOLibBT/build/res/rs/debug" />
+        <source path="/Users/tomas/Work/Toys/wobblybot/AndroidApp/IOIOLibBT/build/res/generated/debug" />
     </dataSet>
     <dataSet config="debug" >
-        <source path="/Users/tomas/Work/Toys/wobblybot/IOIOLibBT/src/debug/res" />
+        <source path="/Users/tomas/Work/Toys/wobblybot/AndroidApp/IOIOLibBT/src/debug/res" />
     </dataSet>
 
 </merger>

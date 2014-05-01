@@ -14,5 +14,6 @@
     <string name="kIadjusterLabel">kI adjuster Value:</string>
     <string name="kDadjusterLabel">kD adjuster Value:</string>
     <string name="currentAngleLabel">Current Angle Value:</string>
+    <string name="multiplierAdjusterLabel">Speed Multiplier</string>
 
 </resources>

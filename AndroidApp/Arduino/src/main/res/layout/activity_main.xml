@@ -149,6 +149,36 @@
         android:paddingTop="20px" >
 
         <EditText
+            android:id="@+id/multiplierAdjusterLabel"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:editable="false"
+            android:inputType="none"
+            android:text="@string/multiplierAdjusterLabel" />
+
+        <TextView
+            android:id="@+id/TextView_multiplierAdjusterValue"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/SeekBar_multiplierAdjuster"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="500"
+        android:progress="100" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20px" >
+
+        <EditText
             android:id="@+id/kPadjusterLabel"
             android:layout_width="200dp"
             android:layout_height="wrap_content"

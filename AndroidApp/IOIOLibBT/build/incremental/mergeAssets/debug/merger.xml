@@ -2,10 +2,10 @@
 <merger>
 
     <dataSet config="main" >
-        <source path="/Users/johnservinis/Papercloud/wobblybot/IOIOLibBT/src/main/assets" />
+        <source path="/Users/tomas/Work/Toys/wobblybot/AndroidApp/IOIOLibBT/src/main/assets" />
     </dataSet>
     <dataSet config="debug" >
-        <source path="/Users/johnservinis/Papercloud/wobblybot/IOIOLibBT/src/debug/assets" />
+        <source path="/Users/tomas/Work/Toys/wobblybot/AndroidApp/IOIOLibBT/src/debug/assets" />
     </dataSet>
 
 </merger>
