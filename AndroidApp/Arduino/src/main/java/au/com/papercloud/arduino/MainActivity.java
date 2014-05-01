@@ -252,12 +252,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         textView_multiplierAdjusterValue = (TextView) findViewById(R.id.TextView_multiplierAdjusterValue);
         seekBar_multiplierAdjuster = (SeekBar) findViewById(R.id.SeekBar_multiplierAdjuster);
 
-        preferences = this.getSharedPreferences("PID.preferences.arduino", Context.MODE_PRIVATE);
-        seekBar_Tilt_adjuster.setProgress(preferences.getInt("seekBar_Tilt_adjuster", 500));
-        seekBar_kP_adjuster.setProgress(preferences.getInt("seekBar_kP_adjuster", 100));
-        seekBar_kI_adjuster.setProgress(preferences.getInt("seekBar_kI_adjuster", 100));
-        seekBar_kD_adjuster.setProgress(preferences.getInt("seekBar_kD_adjuster", 100));
-        seekBar_multiplierAdjuster.setProgress(preferences.getInt("seekBar_multiplierAdjuster", 100));
+        loadPreferences();
 
         // This does the actual balancing.
         mBalancer = new Balancer();
@@ -371,6 +366,8 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
     {
         super.onResume();
 
+        loadPreferences();
+
         // register this class as a listener for the orientation and
         // accelerometer sensors
         mSensorManager.registerListener(this, mRotVectSensor, 10000);
@@ -413,6 +410,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
     protected void onPause() {
         // unregister listener
         super.onPause();
+        savePreferences();
         mSensorManager.unregisterListener(this);
     }
 
@@ -454,18 +452,34 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
 
         super.onDestroy();
     }
-    @Override
-    protected void onStop(){
-        super.onStop();
 
+    protected void savePreferences()
+    {
+        Log.i(TAG, "Saving preferences");
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("seekBar_Tilt_adjuster", seekBar_Tilt_adjuster.getProgress());
         editor.putInt("seekBar_kP_adjuster", seekBar_kP_adjuster.getProgress());
         editor.putInt("seekBar_kI_adjuster", seekBar_kI_adjuster.getProgress());
-        editor.putInt("seekBar_kD_adjuster", seekBar_kI_adjuster.getProgress());
-        editor.putInt("seekBar_multiplierAdjuster", seekBar_kI_adjuster.getProgress());
+        editor.putInt("seekBar_kD_adjuster", seekBar_kD_adjuster.getProgress());
+        editor.putInt("seekBar_multiplierAdjuster", seekBar_multiplierAdjuster.getProgress());
 
         editor.commit();
+    }
+
+    protected void loadPreferences()
+    {
+        Log.i(TAG, "Loading preferences");
+        preferences = this.getSharedPreferences("PID.preferences.arduino", Context.MODE_PRIVATE);
+        seekBar_Tilt_adjuster.setProgress(preferences.getInt("seekBar_Tilt_adjuster", 500));
+        seekBar_kP_adjuster.setProgress(preferences.getInt("seekBar_kP_adjuster", 100));
+        seekBar_kI_adjuster.setProgress(preferences.getInt("seekBar_kI_adjuster", 100));
+        seekBar_kD_adjuster.setProgress(preferences.getInt("seekBar_kD_adjuster", 100));
+        seekBar_multiplierAdjuster.setProgress(preferences.getInt("seekBar_multiplierAdjuster", 100));
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
     }
     private void openAccessory(UsbAccessory accessory)
     {
@@ -736,7 +750,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
 
             PID = (P + I + D) * seekbar_multiplier_adjuster_value;
 
-            Log.i("PID", "PID " + ((float)Math.round(PID * 1000) / (float)1000));
+//            Log.i("PID", "PID " + ((float)Math.round(PID * 1000) / (float)1000));
             sendSpeed(PID);
         }
 
