@@ -1,4 +1,4 @@
-AndroidApp/.gradle
-AndroidApp/local.properties
-AndroidApp/.idea/workspace.xml
+/AndroidApp/.gradle
+/AndroidApp/local.properties
+/AndroidApp/.idea/workspace.xml
 .DS_Store
