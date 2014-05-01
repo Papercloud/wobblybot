@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidApp.iml" filepath="$PROJECT_DIR$/AndroidApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/Arduino/Arduino.iml" filepath="$PROJECT_DIR$/Arduino/Arduino.iml" />
       <module fileurl="file://$PROJECT_DIR$/IOIOLib/IOIOLib.iml" filepath="$PROJECT_DIR$/IOIOLib/IOIOLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/IOIOLibBT/IOIOLibBT.iml" filepath="$PROJECT_DIR$/IOIOLibBT/IOIOLibBT.iml" />

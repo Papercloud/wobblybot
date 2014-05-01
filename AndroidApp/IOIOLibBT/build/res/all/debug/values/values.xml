@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- From: file:/Users/johnservinis/Papercloud/wobblybot/IOIOLibBT/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
+    <!-- From: file:/Users/johnservinis/Papercloud/wobblybot/AndroidApp/IOIOLibBT/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
     <eat-comment />
 
     <attr name="actionBarDivider" format="reference" />
@@ -535,11 +535,11 @@
     <string name="abc_searchview_description_voice">Voice search</string>
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
-    <!-- From: file:/Users/johnservinis/Papercloud/wobblybot/IOIOLibBT/build/exploded-aar/wobblybot/IOIOLib/unspecified/res/values/values.xml -->
+    <!-- From: file:/Users/johnservinis/Papercloud/wobblybot/AndroidApp/IOIOLibBT/build/exploded-aar/AndroidApp/IOIOLib/unspecified/res/values/values.xml -->
     <eat-comment />
 
     <string name="app_name">My Module</string>
-    <!-- From: file:/Users/johnservinis/Papercloud/wobblybot/IOIOLibBT/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
+    <!-- From: file:/Users/johnservinis/Papercloud/wobblybot/AndroidApp/IOIOLibBT/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
     <eat-comment />
 
     <style name="TextAppearance.AppCompat.Base.CompactMenu.Dialog" parent="android:TextAppearance.Medium">
