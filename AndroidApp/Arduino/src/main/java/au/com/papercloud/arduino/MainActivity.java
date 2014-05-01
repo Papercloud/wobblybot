@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.speech.tts.TextToSpeech;
@@ -68,13 +69,17 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
     private TextView textView_kP_adjuster;
     private TextView textView_kI_adjuster;
     private TextView textView_kD_adjuster;
+    private TextView textView_multiplierAdjusterValue;
     private SeekBar seekBar_Tilt_adjuster;
     private SeekBar seekBar_kP_adjuster;
     private SeekBar seekBar_kI_adjuster;
     private SeekBar seekBar_kD_adjuster;
+    private SeekBar seekBar_multiplierAdjuster;
 
     private Timer mCallBalancerTimer;
     private Balancer mBalancer;
+
+    private SharedPreferences preferences;
 
     ContinuousDictationFragment dictationFragment;
 
@@ -246,6 +251,11 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         textView_kD_adjuster = (TextView) findViewById(R.id.TextView_kD_adjusterValue);
         seekBar_kD_adjuster = (SeekBar) findViewById(R.id.SeekBar_kD_adjuster);
 
+        textView_multiplierAdjusterValue = (TextView) findViewById(R.id.TextView_multiplierAdjusterValue);
+        seekBar_multiplierAdjuster = (SeekBar) findViewById(R.id.SeekBar_multiplierAdjuster);
+
+        loadPreferences();
+
         // This does the actual balancing.
         mBalancer = new Balancer();
 
@@ -327,6 +337,15 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         });
     }
 
+    private void setText_multiplierAdjuster(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_multiplierAdjusterValue.setText(str);
+            }
+        });
+    }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -348,6 +367,8 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
     public void onResume()
     {
         super.onResume();
+
+        loadPreferences();
 
         // register this class as a listener for the orientation and
         // accelerometer sensors
@@ -391,6 +412,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
     protected void onPause() {
         // unregister listener
         super.onPause();
+        savePreferences();
         mSensorManager.unregisterListener(this);
     }
 
@@ -433,6 +455,34 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         super.onDestroy();
     }
 
+    protected void savePreferences()
+    {
+        Log.i(TAG, "Saving preferences");
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("seekBar_Tilt_adjuster", seekBar_Tilt_adjuster.getProgress());
+        editor.putInt("seekBar_kP_adjuster", seekBar_kP_adjuster.getProgress());
+        editor.putInt("seekBar_kI_adjuster", seekBar_kI_adjuster.getProgress());
+        editor.putInt("seekBar_kD_adjuster", seekBar_kD_adjuster.getProgress());
+        editor.putInt("seekBar_multiplierAdjuster", seekBar_multiplierAdjuster.getProgress());
+
+        editor.commit();
+    }
+
+    protected void loadPreferences()
+    {
+        Log.i(TAG, "Loading preferences");
+        preferences = this.getSharedPreferences("PID.preferences.arduino", Context.MODE_PRIVATE);
+        seekBar_Tilt_adjuster.setProgress(preferences.getInt("seekBar_Tilt_adjuster", 500));
+        seekBar_kP_adjuster.setProgress(preferences.getInt("seekBar_kP_adjuster", 100));
+        seekBar_kI_adjuster.setProgress(preferences.getInt("seekBar_kI_adjuster", 100));
+        seekBar_kD_adjuster.setProgress(preferences.getInt("seekBar_kD_adjuster", 100));
+        seekBar_multiplierAdjuster.setProgress(preferences.getInt("seekBar_multiplierAdjuster", 100));
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+    }
     private void openAccessory(UsbAccessory accessory)
     {
         mFileDescriptor = mUsbManager.openAccessory(accessory);
@@ -669,6 +719,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         private float seekbar_kP_adjuster_value;
         private float seekbar_kI_adjuster_value;
         private float seekbar_kD_adjuster_value;
+        private float seekbar_multiplier_adjuster_value;
 
         public void balance()
         {
@@ -678,11 +729,13 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             seekbar_kP_adjuster_value   = (float)seekBar_kP_adjuster.getProgress() / (float)100;
             seekbar_kI_adjuster_value   = (float)seekBar_kI_adjuster.getProgress() / (float)100;
             seekbar_kD_adjuster_value   = (float)seekBar_kD_adjuster.getProgress() / (float)100;
+            seekbar_multiplier_adjuster_value = (float)seekBar_multiplierAdjuster.getProgress() / (float)100;
 
             setText_tilt_adjuster(Integer.toString(seekbar_tilt_adjuster_value));
             setText_kP_adjuster(Float.toString(seekbar_kP_adjuster_value));
             setText_kI_adjuster(Float.toString(seekbar_kI_adjuster_value));
             setText_kD_adjuster(Float.toString(seekbar_kD_adjuster_value));
+            setText_multiplierAdjuster(Float.toString(seekbar_multiplier_adjuster_value));
 
             // Defaults to 0. Can be tuned to stand up completely straight.
             targetAngle = seekbar_tilt_adjuster_value;
@@ -700,9 +753,9 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             previousErrorAngle = errorAngle;
             lastTime = time;
 
-            PID = P + I + D;
+            PID = (P + I + D) * seekbar_multiplier_adjuster_value;
 
-            Log.i("PID", "PID " + ((float)Math.round(PID * 1000) / (float)1000));
+//            Log.i("PID", "PID " + ((float)Math.round(PID * 1000) / (float)1000));
             sendSpeed(PID);
         }
 
