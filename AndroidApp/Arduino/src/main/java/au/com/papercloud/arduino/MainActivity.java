@@ -19,6 +19,7 @@ import android.util.Log;
 import java.nio.BufferOverflowException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.math.BigDecimal;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -70,6 +71,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
     private TextView textView_kI_adjuster;
     private TextView textView_kD_adjuster;
     private TextView textView_multiplierAdjusterValue;
+    private TextView textView_PIDView;
     private SeekBar seekBar_Tilt_adjuster;
     private SeekBar seekBar_kP_adjuster;
     private SeekBar seekBar_kI_adjuster;
@@ -254,6 +256,8 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         textView_multiplierAdjusterValue = (TextView) findViewById(R.id.TextView_multiplierAdjusterValue);
         seekBar_multiplierAdjuster = (SeekBar) findViewById(R.id.SeekBar_multiplierAdjuster);
 
+        textView_PIDView = (TextView) findViewById(R.id.TextView_PIDView);
+
         loadPreferences();
 
         // This does the actual balancing.
@@ -265,7 +269,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             public void run() {
                 mBalancer.balance();
             }
-        }, 0, 100); // TODO: Make it more frequent than every second.
+        }, 0, 5); // TODO: Make it more frequent than every second.
 
         connectionStatus = (TextView) findViewById(R.id.connectionStatus);
 
@@ -346,6 +350,14 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         });
     }
 
+    private void setText_PIDView(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_PIDView.setText(str);
+            }
+        });
+    }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -372,7 +384,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
 
         // register this class as a listener for the orientation and
         // accelerometer sensors
-        mSensorManager.registerListener(this, mRotVectSensor, 10000);
+        mSensorManager.registerListener(this, mRotVectSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
         if (mAccessory != null)
         {
@@ -741,19 +753,24 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             targetAngle = seekbar_tilt_adjuster_value;
             currentAngle = (Math.round(orientationVals[1]  * 100));
 
-            float errorAngle = ((float)targetAngle - (float)currentAngle) / (float)100;
+            float errorAngle = ((float)targetAngle - (float)currentAngle) / (float)100; // How quickly this changes.
             setText_current_angle(Float.toString(errorAngle));
 
             long time = System.currentTimeMillis();
             long dt = time - lastTime;
             P = seekbar_kP_adjuster_value * errorAngle;
-            integratedError += errorAngle * dt;
-            I = seekbar_kI_adjuster_value * constrain(integratedError, -1, 1);
+            integratedError += errorAngle * (float)dt / (float)20;
+            integratedError = constrain(integratedError, -80, 80);
+            I = seekbar_kI_adjuster_value * integratedError;
             D = seekbar_kD_adjuster_value * (errorAngle - previousErrorAngle) / dt;
             previousErrorAngle = errorAngle;
             lastTime = time;
 
             PID = (P + I + D) * seekbar_multiplier_adjuster_value;
+
+            PID = constrain(PID, -80, 80);
+
+//            setText_PIDView("(" + round(P, 2) + " + " + round(I, 2) + " + " + round(D, 2) + ") * " + round(seekbar_multiplier_adjuster_value, 2) + " = " + round(PID, 0));
 
 //            Log.i("PID", "PID " + ((float)Math.round(PID * 1000) / (float)1000));
             sendSpeed(PID);
@@ -769,6 +786,22 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             } else {
                 return value;
             }
+        }
+
+        /**
+         * Round to certain number of decimals
+         *
+         * @param d
+         * @param decimalPlace
+         * @return
+         */
+        public float round(float d, int decimalPlace) {
+            if (d == Float.NaN) {
+                return 0;
+            }
+            BigDecimal bd = new BigDecimal(Float.toString(d));
+            bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+            return bd.floatValue();
         }
     }
 

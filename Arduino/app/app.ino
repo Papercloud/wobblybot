@@ -46,7 +46,7 @@ void setup() {
   rightStepper.setMaxSpeed(speedConst);
   rightStepper.setAcceleration(acceleration);
 
-  Serial.begin(4800);
+  Serial.begin(57600);
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   if (Usb.Init() == -1) {
     Serial.print("\r\nOSCOKIRQ failed to assert");
