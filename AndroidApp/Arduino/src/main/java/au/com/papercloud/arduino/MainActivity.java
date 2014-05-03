@@ -70,6 +70,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
     private TextView textView_kI_adjuster;
     private TextView textView_kD_adjuster;
     private TextView textView_multiplierAdjusterValue;
+    private TextView textView_currentSpeedValue;
     private SeekBar seekBar_Tilt_adjuster;
     private SeekBar seekBar_kP_adjuster;
     private SeekBar seekBar_kI_adjuster;
@@ -238,6 +239,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         mRotVectSensor=mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
         textView_Current_Angle = (TextView) findViewById(R.id.TextView_CurrentAngle_Value);
+        textView_currentSpeedValue = (TextView) findViewById(R.id.TextView_CurrentSpeed_Value);
 
         textView_Tilt_adjuster = (TextView) findViewById(R.id.TextView_Tilt_adjusterValue);
         seekBar_Tilt_adjuster = (SeekBar) findViewById(R.id.SeekBar_Tilt_adjuster);
@@ -346,6 +348,14 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         });
     }
 
+    private void setText_currentSpeedValue(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView_currentSpeedValue.setText(str);
+            }
+        });
+    }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -748,14 +758,17 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             long dt = time - lastTime;
             P = seekbar_kP_adjuster_value * errorAngle;
             integratedError += errorAngle * dt;
-            I = seekbar_kI_adjuster_value * constrain(integratedError, -1, 1);
+            I = seekbar_kI_adjuster_value * constrain(integratedError, -10, 10);
             D = seekbar_kD_adjuster_value * (errorAngle - previousErrorAngle) / dt;
             previousErrorAngle = errorAngle;
             lastTime = time;
 
             PID = (P + I + D) * seekbar_multiplier_adjuster_value;
 
+            PID = constrain(PID, -80, 80);
+
 //            Log.i("PID", "PID " + ((float)Math.round(PID * 1000) / (float)1000));
+            setText_currentSpeedValue(Float.toString(PID));
             sendSpeed(PID);
         }
 

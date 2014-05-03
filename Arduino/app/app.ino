@@ -45,6 +45,8 @@ void setup() {
 
   rightStepper.setMaxSpeed(speedConst);
   rightStepper.setAcceleration(acceleration);
+  
+  moveEnable();
 
   Serial.begin(4800);
   while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
@@ -112,14 +114,14 @@ void moveSpeed(int8_t speed)
 
 void loop() {
 
-  if (rightStepper.distanceToGo() == 0 && leftStepper.distanceToGo() == 0) {
-    moveDisable();
-  } else {
-    moveEnable();
-  }
+//  if (rightStepper.distanceToGo() == 0 && leftStepper.distanceToGo() == 0) {
+//    moveDisable();
+//  } else {
+//    moveEnable();
+//  }
   
-  rightStepper.run();
-  leftStepper.run();
+  rightStepper.runSpeed();
+  leftStepper.runSpeed();
   
   Usb.Task();
 
@@ -133,12 +135,12 @@ void loop() {
     uint16_t len = sizeof(msg);
     uint8_t rcode = adk.RcvData(&len, msg);
     if (rcode && rcode != hrNAK) {
-      Serial.print(F("\r\nData rcv: "));
-      Serial.print(rcode, HEX);
+//      Serial.print(F("\r\nData rcv: "));
+//      Serial.print(rcode, HEX);
     } else if (len > 0) {
       int leftSpeed = BitShiftCombine(msg[0], msg[1]);
-      Serial.print(F("\r\nData Packet: "));
-      Serial.print(leftSpeed);
+//      Serial.print(F("\r\nData Packet: "));
+//      Serial.print(leftSpeed);
 //      moveDirection(msg[0]);
 
       moveSpeed(leftSpeed);

@@ -102,6 +102,12 @@
             android:text="@string/currentAngleLabel" />
 
         <TextView
+            android:id="@+id/TextView_CurrentSpeed_Value"
+            android:layout_width="109dp"
+            android:layout_height="wrap_content"
+            android:text="0" />
+
+        <TextView
             android:id="@+id/TextView_CurrentAngle_Value"
             android:layout_width="109dp"
             android:layout_height="wrap_content"
@@ -169,7 +175,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:indeterminate="false"
-        android:max="500"
+        android:max="3000"
         android:progress="100" />
 
     <LinearLayout
