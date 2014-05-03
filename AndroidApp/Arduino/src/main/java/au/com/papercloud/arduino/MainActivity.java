@@ -20,6 +20,8 @@ import java.nio.BufferOverflowException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.math.BigDecimal;
+import android.os.Bundle;
+import android.view.WindowManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -235,6 +237,8 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         // Balancing tweak controls and debug
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mRotVectSensor=mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -269,7 +273,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
             public void run() {
                 mBalancer.balance();
             }
-        }, 0, 5); // TODO: Make it more frequent than every second.
+        }, 0, 10);
 
         connectionStatus = (TextView) findViewById(R.id.connectionStatus);
 
@@ -768,9 +772,9 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
 
             PID = (P + I + D) * seekbar_multiplier_adjuster_value;
 
-            PID = constrain(PID, -80, 80);
+            PID = constrain(PID, -100, 100);
 
-//            setText_PIDView("(" + round(P, 2) + " + " + round(I, 2) + " + " + round(D, 2) + ") * " + round(seekbar_multiplier_adjuster_value, 2) + " = " + round(PID, 0));
+            setText_PIDView("(" + round(P, 2) + " + " + round(I, 2) + " + " + round(D, 2) + ") * " + round(seekbar_multiplier_adjuster_value, 2) + " = " + round(PID, 0));
 
 //            Log.i("PID", "PID " + ((float)Math.round(PID * 1000) / (float)1000));
             sendSpeed(PID);
@@ -796,7 +800,7 @@ public class MainActivity extends FragmentActivity implements ContinuousDictatio
          * @return
          */
         public float round(float d, int decimalPlace) {
-            if (d == Float.NaN) {
+            if (Float.isNaN(d)) {
                 return 0;
             }
             BigDecimal bd = new BigDecimal(Float.toString(d));

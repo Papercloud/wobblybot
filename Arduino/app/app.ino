@@ -118,8 +118,8 @@ void loop() {
     moveEnable();
   }
   
-  rightStepper.run();
-  leftStepper.run();
+  rightStepper.runSpeed();
+  leftStepper.runSpeed();
   
   Usb.Task();
 
@@ -133,12 +133,12 @@ void loop() {
     uint16_t len = sizeof(msg);
     uint8_t rcode = adk.RcvData(&len, msg);
     if (rcode && rcode != hrNAK) {
-      Serial.print(F("\r\nData rcv: "));
-      Serial.print(rcode, HEX);
+//      Serial.print(F("\r\nData rcv: "));
+//      Serial.print(rcode, HEX);
     } else if (len > 0) {
       int leftSpeed = BitShiftCombine(msg[0], msg[1]);
-      Serial.print(F("\r\nData Packet: "));
-      Serial.print(leftSpeed);
+//      Serial.print(F("\r\nData Packet: "));
+//      Serial.print(leftSpeed);
 //      moveDirection(msg[0]);
 
       moveSpeed(leftSpeed);
